@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1439951205 source:/home/kvoing/cppnet/cppnet/socket.cc
+	"socket.h"
+	<string>
+	<arpa/inet.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<unistd.h>
+	<fcntl.h>
+
+1439966240 /home/kvoing/cppnet/cppnet/socket.h
+	"noncopyable.h"
+	<string>
+	<sys/types.h>
+	<stdint.h>
+	<netinet/in.h>
+
+1439966218 /home/kvoing/cppnet/cppnet/noncopyable.h
+
+1439953363 source:/home/kvoing/cppnet/cppnet/main.cc
+	"socket.h"
+	<sys/socket.h>
+	<fcntl.h>
+	<errno.h>
+	<string.h>
+	<stdio.h>
+	<string>
+	<unistd.h>
+
