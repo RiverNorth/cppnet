@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -31,10 +33,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.cc" />
-		<Unit filename="noncopyable.h" />
-		<Unit filename="socket.cc" />
-		<Unit filename="socket.h" />
+		<Unit filename="include/EventLoop.h" />
+		<Unit filename="include/noncopyable.h" />
+		<Unit filename="include/socket.h" />
+		<Unit filename="src/EventLoop.cc" />
+		<Unit filename="src/main.cc" />
+		<Unit filename="src/socket.cc" />
 		<Extensions>
 			<code_completion />
 			<debugger />

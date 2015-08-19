@@ -7,6 +7,7 @@ class EventLoop
     public:
         EventLoop();
         ~EventLoop();
+
     protected:
     private:
 };
