@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
+					<Add directory="../boost_1_57_0" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -33,10 +34,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/Acceptor.h" />
+		<Unit filename="include/Channel.h" />
+		<Unit filename="include/EpollPoller.h" />
 		<Unit filename="include/EventLoop.h" />
+		<Unit filename="include/Poller.h" />
 		<Unit filename="include/noncopyable.h" />
 		<Unit filename="include/socket.h" />
+		<Unit filename="src/Acceptor.cpp" />
+		<Unit filename="src/Channel.cpp" />
+		<Unit filename="src/EpollPoller.cpp" />
 		<Unit filename="src/EventLoop.cc" />
+		<Unit filename="src/Poller.cpp" />
 		<Unit filename="src/main.cc" />
 		<Unit filename="src/socket.cc" />
 		<Extensions>

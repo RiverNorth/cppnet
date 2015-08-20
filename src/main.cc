@@ -6,8 +6,15 @@
 #include <stdio.h>
 #include <string>
 #include <unistd.h>
-
+#include "EpollPoller.h"
+#include "EventLoop.h"
+#include <boost/bind.hpp>
 using namespace fsociety::net;
+void printLog()
+{
+    printf("got!\r\n");
+}
+
 int main()
 {
     int fd = socket(AF_INET,SOCK_STREAM,0);
@@ -18,6 +25,16 @@ int main()
     }
 
     s.listen(2);
+    s.setNonBlocking();
+
+    EpollPoller poller;
+    Channel channel(fd, &poller);
+    channel.setReadCallback(printLog);
+    channel.enableReadCallback();
+    EventLoop eventLoop(&poller);
+    eventLoop.loop();
+
+/*
     Socket* socket = s.accept();
     if(socket!=NULL)
     {
@@ -25,6 +42,7 @@ int main()
         sleep(100);
         socket->close();
     }
-
+*/
 }
+
 
