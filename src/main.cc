@@ -10,28 +10,45 @@
 #include "EventLoop.h"
 #include <boost/bind.hpp>
 using namespace fsociety::net;
-void printLog()
+
+void printWord(Channel* channel)
 {
-    printf("got!\r\n");
+    char abc[1];
+    bzero(abc, 1);
+    int i = read(channel->getFd(),abc,1);
+    if(i==0)
+    {
+        printf("socket closed\r\n");
+        close(channel->getFd());
+    }
+    else
+    {
+        printf("%s", abc);
+    }
 }
+
+void printLog(Poller* poller, Socket* socket)
+{
+    printf("recieve conn from ip:%s,port:%d\r\n",socket->getIpStr().c_str(),socket->getPortNum());
+    Channel* newChannel = new Channel(socket->getSocketFd(),poller);
+    Channel::EventCallback f = boost::bind(&printWord, newChannel);
+    newChannel->setReadCallback(f);
+    newChannel->enableReadCallback();
+}
+
 
 int main()
 {
     int fd = socket(AF_INET,SOCK_STREAM,0);
     Socket s(fd);
-    if(!s.bindAddress("127.0.0.1",9930))
-    {
-        printf("unknown error on bind:%s",strerror(errno));
-    }
-
-    s.listen(2);
-    s.setNonBlocking();
 
     EpollPoller poller;
-    Channel channel(fd, &poller);
-    channel.setReadCallback(printLog);
-    channel.enableReadCallback();
     EventLoop eventLoop(&poller);
+    Acceptor acceptor(&eventLoop,"127.0.0.1",9930);
+    Acceptor::NewConnectionCallback f = boost::bind(&printLog, &poller,_1);
+    acceptor.setNewConnectionCallback(f);
+
+    eventLoop.setAcceptor(&acceptor);
     eventLoop.loop();
 
 /*

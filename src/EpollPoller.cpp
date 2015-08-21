@@ -2,6 +2,7 @@
 #include <sys/epoll.h>
 #include <strings.h>
 #include "Channel.h"
+#include <stdio.h>
 
 EpollPoller::~EpollPoller()
 {
@@ -15,6 +16,7 @@ EpollPoller::~EpollPoller()
   */
 int EpollPoller::poll(int timeoutMs, ChannelList* activeChannels)
 {
+    printf("EpollPoller::poll\r\n");
     int numEvents = ::epoll_wait(epollfd_,&events_.front(), events_.size(),timeoutMs);
     for(int i=0;i<numEvents;i++)
     {
@@ -22,6 +24,7 @@ int EpollPoller::poll(int timeoutMs, ChannelList* activeChannels)
         channel->setPollEvent(events_[i].events);
         activeChannels->push_back((Channel*)events_[i].data.ptr);
     }
+    printf("numEvents:%d\r\n",numEvents);
     return numEvents;
 }
 
@@ -31,9 +34,8 @@ bool EpollPoller::updateChannel(Channel* channel)
     {
         struct epoll_event event;
         bzero((void*)&event,sizeof(event));
-        event.events=channel->getPollEvent();
+        event.events=channel->getEnableEvent();
         event.data.ptr = (void*)channel;
-        event.data.fd = channel->getFd();
         if(::epoll_ctl(epollfd_,EPOLL_CTL_ADD,channel->getFd(),&event)<0)
         {
             return false;
@@ -44,9 +46,8 @@ bool EpollPoller::updateChannel(Channel* channel)
     {
         struct epoll_event event;
         bzero((void*)&event,sizeof(event));
-        event.events=channel->getPollEvent();
+        event.events=channel->getEnableEvent();
         event.data.ptr = (void*)channel;
-        event.data.fd = channel->getFd();
         if(::epoll_ctl(epollfd_, EPOLL_CTL_MOD, channel->getFd(),&event))
         {
             return false;

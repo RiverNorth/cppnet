@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 using namespace fsociety;
 using namespace fsociety::net;
@@ -42,6 +43,10 @@ bool Socket::setNonBlocking()
 
 bool Socket::bindAddress(const std::string& ipAddress, uint16_t port)
 {
+    if(!setReuseAddr())
+    {
+        printf("reuse addr faild;\r\n");
+    }
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = inet_addr(ipAddress.c_str());
@@ -56,6 +61,20 @@ bool Socket::bindAddress(const std::string& ipAddress, uint16_t port)
         port_ = port;
         return true;
     }
+}
+
+bool Socket::setReuseAddr()
+{
+    int optval = 1;
+    if(::setsockopt(socketfd_,SOL_SOCKET,SO_REUSEADDR, &optval,static_cast<socklen_t>(sizeof(optval)))==0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
 }
 
 bool Socket::listen(int backlog)
