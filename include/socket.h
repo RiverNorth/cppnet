@@ -7,13 +7,14 @@
 #include <stdint.h>
 #include <netinet/in.h>
 
+
 namespace fsociety
 {
 namespace net
 {
 //forward implementation
 
-
+class InetAddr;
 class Socket:private Noncopyable
 {
   private:
@@ -30,9 +31,9 @@ class Socket:private Noncopyable
     int getSocketFd(){return socketfd_;}
     bool setNonBlocking();
     bool setReuseAddr();
-    bool bindAddress(const std::string& ipAddress, uint16_t port);
+    bool bindAddress(InetAddr const* inetAddr);
     bool listen(int backlog);
-    Socket* accept();
+    int accept(InetAddr* addr);
     bool close();
 
 };

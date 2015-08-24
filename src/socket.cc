@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include "InetAddr.h"
 
 using namespace fsociety;
 using namespace fsociety::net;
@@ -41,7 +42,7 @@ bool Socket::setNonBlocking()
     }
 }
 
-bool Socket::bindAddress(const std::string& ipAddress, uint16_t port)
+bool Socket::bindAddress(InetAddr const* inetAddr)
 {
     if(!setReuseAddr())
     {
@@ -49,8 +50,8 @@ bool Socket::bindAddress(const std::string& ipAddress, uint16_t port)
     }
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = inet_addr(ipAddress.c_str());
-    addr.sin_port = htons(port);
+    addr.sin_addr.s_addr = inet_addr(inetAddr->getIp().c_str());
+    addr.sin_port = htons(inetAddr->getPortNum());
     if(bind(socketfd_,(struct sockaddr*)&addr, sizeof(struct sockaddr))==-1)
     {
         return false;
@@ -89,18 +90,18 @@ bool Socket::listen(int backlog)
     }
 }
 
-Socket* Socket::accept()
+int Socket::accept(InetAddr* addr)
 {
-    struct sockaddr_in addr;
-    socklen_t len = static_cast<socklen_t> (sizeof(addr));
+    socklen_t len = static_cast<socklen_t> (sizeof(struct sockaddr_in));
     int fd = ::accept(socketfd_,(struct sockaddr*)&addr,&len);
     if(fd==-1)
     {
-        return NULL;
+        return -1;
     }
     else
     {
-        return new Socket(fd, addr);
+
+        return fd;
     }
 }
 

@@ -5,7 +5,9 @@
 #include "noncopyable.h"
 #include <string>
 #include "Channel.h"
-
+#include "InetAddr.h"
+#include "InetAddr.h"
+#include "Callbacks.h"
 
 class EventLoop;
 namespace fsociety
@@ -19,13 +21,12 @@ namespace fsociety
 class Acceptor:private Noncopyable
 {
     public:
-        typedef boost::function<void(fsociety::net::Socket* socket)> NewConnectionCallback;
-        Acceptor(EventLoop* loop, std::string ip, uint16_t port);
+        Acceptor(EventLoop* loop, InetAddr const* addr);
         ~Acceptor();
 
         bool isListening(){ return isListening_;}
         bool listen(int backlogs);
-        void setNewConnectionCallback(const NewConnectionCallback& cb){cb_ =cb;}
+        void setNewConnectionCallback(const NewConnectionCallback& cb){ newConnectionCallback_ =cb;}
         void handleRead();
     protected:
     private:
@@ -33,7 +34,7 @@ class Acceptor:private Noncopyable
         fsociety::net::Socket* listenSocket_;
         Channel* acceptChannel_;
         bool isListening_;
-        NewConnectionCallback cb_;
+        NewConnectionCallback newConnectionCallback_;
 };
 
 #endif // ACCEPTOR_H

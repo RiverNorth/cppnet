@@ -6,10 +6,11 @@
 #include "socket.h"
 #include "EventLoop.h"
 #include <boost/bind.hpp>
+#include "TcpConnection.h"
 
 using namespace fsociety::net;
 
-Acceptor::Acceptor(EventLoop* loop, std::string ipStr, uint16_t port):eventLoop_(loop),isListening_(false)
+Acceptor::Acceptor(EventLoop* loop, InetAddr const* addr):eventLoop_(loop),isListening_(false)
 {
     int fd = socket(AF_INET,SOCK_STREAM,0);
     if(fd<0)
@@ -20,7 +21,7 @@ Acceptor::Acceptor(EventLoop* loop, std::string ipStr, uint16_t port):eventLoop_
     listenSocket_ = new Socket(fd);
     listenSocket_->setNonBlocking();
     acceptChannel_ = new Channel(fd, loop->getPoller());
-    if(!listenSocket_->bindAddress(ipStr.c_str(),port))
+    if(!listenSocket_->bindAddress(addr);
     {
         printf("unknown error on bind:%s",strerror(errno));
     }
@@ -50,18 +51,16 @@ bool Acceptor::listen(int backlogs)
 
 void Acceptor::handleRead()
 {
-    Socket* newSocket = listenSocket_->accept();
-    while(newSocket!=NULL)
+    InetAddr addr;
+    int fd = listenSocket_->accept(&addr);
+    while(fd>0)
     {
-        if(cb_)
-        {
-            cb_(newSocket);
-        }
+        if(newConnectionCallback_)
+            newConnectionCallback_(fd,addr);
         else
-        {
-            delete newSocket;
-        }
-        newSocket = listenSocket_->accept();
+            close(fd);
+        fd = listenSocket_->accept(&addr);
     }
+
 }
 
