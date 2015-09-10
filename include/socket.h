@@ -6,15 +6,12 @@
 #include <sys/types.h>
 #include <stdint.h>
 #include <netinet/in.h>
-
-
+//forward implementation
+class InetAddr;
 namespace fsociety
 {
 namespace net
 {
-//forward implementation
-
-class InetAddr;
 class Socket:private Noncopyable
 {
   private:

@@ -15,7 +15,7 @@ TcpServer::TcpServer(EventLoop* loop, const InetAddr& addr)
      serverAddr_(addr),
      connectId_(1)
 {
-    acceptor_.setNewConnectionCallback(boost::bind(&TcpServer::onNewConnectionCallback, this));
+    //acceptor_.setNewConnectionCallback(boost::bind(onNewConnectionCallback, this));
 }
 
 bool TcpServer::start()
@@ -33,11 +33,10 @@ bool TcpServer::start()
 void TcpServer::onNewConnectionCallback(int fd, const InetAddr& addr)
 {
     char buf[32];
-    snprintf(buf,sizeof(buf),"%s#%d",addr.getIp(),connectId_);
+    snprintf(buf,sizeof(buf),"%s#%d",addr.getIp().c_str(),connectId_);
     ++connectId_;
     InetAddr localAddr(serverAddr_);
     std::string name = buf;
     TcpConnection* tcpConnection= new TcpConnection(eventloop_, fd, serverAddr_, addr);
     connectionMap_[name] =tcpConnection;
-    tcpConnection->
 }

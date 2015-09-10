@@ -42,7 +42,7 @@ bool Socket::setNonBlocking()
     }
 }
 
-bool Socket::bindAddress(InetAddr const* inetAddr)
+bool Socket::bindAddress(::InetAddr const* inetAddr)
 {
     if(!setReuseAddr())
     {
@@ -56,12 +56,7 @@ bool Socket::bindAddress(InetAddr const* inetAddr)
     {
         return false;
     }
-    else
-    {
-        ipAddr_ = ipAddress;
-        port_ = port;
-        return true;
-    }
+    return true;
 }
 
 bool Socket::setReuseAddr()
@@ -90,17 +85,19 @@ bool Socket::listen(int backlog)
     }
 }
 
-int Socket::accept(InetAddr* addr)
+int Socket::accept(::InetAddr* addr)
 {
+    struct sockaddr_in sockadd;
     socklen_t len = static_cast<socklen_t> (sizeof(struct sockaddr_in));
-    int fd = ::accept(socketfd_,(struct sockaddr*)&addr,&len);
+    int fd = ::accept(socketfd_,(struct sockaddr*)&sockadd,&len);
     if(fd==-1)
     {
         return -1;
     }
     else
     {
-
+        addr->setIp(inet_ntoa(sockadd.sin_addr));
+        addr->setPortNum(ntohs(sockadd.sin_port));
         return fd;
     }
 }

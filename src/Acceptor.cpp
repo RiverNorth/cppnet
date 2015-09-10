@@ -7,10 +7,14 @@
 #include "EventLoop.h"
 #include <boost/bind.hpp>
 #include "TcpConnection.h"
+#include "logger.h"
+#include "EventLoop.h"
+#include <string>
+
 
 using namespace fsociety::net;
 
-Acceptor::Acceptor(EventLoop* loop, InetAddr const* addr):eventLoop_(loop),isListening_(false)
+Acceptor::Acceptor(EventLoop* loop, ::InetAddr const* addr):eventLoop_(loop),isListening_(false)
 {
     int fd = socket(AF_INET,SOCK_STREAM,0);
     if(fd<0)
@@ -20,10 +24,19 @@ Acceptor::Acceptor(EventLoop* loop, InetAddr const* addr):eventLoop_(loop),isLis
     }
     listenSocket_ = new Socket(fd);
     listenSocket_->setNonBlocking();
-    acceptChannel_ = new Channel(fd, loop->getPoller());
-    if(!listenSocket_->bindAddress(addr);
+
+    acceptChannel_ = loop->getPoller()->createChannel(fd,*addr);
+
+    if(acceptChannel_==NULL)
     {
-        printf("unknown error on bind:%s",strerror(errno));
+        logger::console->critical("Acceptor createChannel Null fd{}",fd);
+    }
+
+    if(!listenSocket_->bindAddress(addr))
+    {
+        char* error = strerror(errno);
+        std::string ipPortStr = addr->getIpPortStr();
+        logger::console->critical("error on bind {}:reason{}",ipPortStr,error);
     }
     Channel::EventCallback f = boost::bind(&Acceptor::handleRead,this);
     acceptChannel_->setReadCallback(f);
@@ -51,7 +64,7 @@ bool Acceptor::listen(int backlogs)
 
 void Acceptor::handleRead()
 {
-    InetAddr addr;
+    ::InetAddr addr;
     int fd = listenSocket_->accept(&addr);
     while(fd>0)
     {

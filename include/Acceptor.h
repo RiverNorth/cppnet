@@ -6,7 +6,6 @@
 #include <string>
 #include "Channel.h"
 #include "InetAddr.h"
-#include "InetAddr.h"
 #include "Callbacks.h"
 
 class EventLoop;

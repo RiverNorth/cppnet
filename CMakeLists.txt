@@ -19,6 +19,17 @@ set(SOURCE_FILES
     src/EventLoop.cc
     src/main.cc
     src/Poller.cpp
-    src/socket.cc src/InetAddr.cpp include/InetAddr.h src/TcpConnection.cpp include/TcpConnection.h src/TcpServer.cpp include/TcpServer.h include/Callbacks.h)
+    src/socket.cc
+    src/InetAddr.cpp
+    include/InetAddr.h
+    src/TcpConnection.cpp
+    include/TcpConnection.h
+    src/TcpServer.cpp
+    include/TcpServer.h
+    include/Callbacks.h
+    src/Buffer.cpp
+    include/Buffer.h
+    include/logger.h
+    src/logger.cpp)
 
 add_executable(cppnet ${SOURCE_FILES})

@@ -22,10 +22,7 @@ private:
     int connectId_;
     ConnectionMap connectionMap_;
 
-    void onNewConnectionCallback(int fd, const InetAddr& addr)
-    {
-
-    }
+    void onNewConnectionCallback(int fd, const InetAddr& addr);
 
     void handleReadCallback()
     {

@@ -3,6 +3,7 @@
 #include <strings.h>
 #include "Channel.h"
 #include <stdio.h>
+#include "logger.h"
 
 EpollPoller::~EpollPoller()
 {
@@ -16,7 +17,8 @@ EpollPoller::~EpollPoller()
   */
 int EpollPoller::poll(int timeoutMs, ChannelList* activeChannels)
 {
-    printf("EpollPoller::poll\r\n");
+
+    logger::console->info("EpollPoller::poll\n");
     int numEvents = ::epoll_wait(epollfd_,&events_.front(), events_.size(),timeoutMs);
     for(int i=0;i<numEvents;i++)
     {
@@ -24,7 +26,7 @@ int EpollPoller::poll(int timeoutMs, ChannelList* activeChannels)
         channel->setPollEvent(events_[i].events);
         activeChannels->push_back((Channel*)events_[i].data.ptr);
     }
-    printf("numEvents:%d\r\n",numEvents);
+    logger::console->info("numEvents:{}\n",numEvents);
     return numEvents;
 }
 

@@ -15,14 +15,14 @@ class EventLoop;
 class TcpConnection {
 public:
     TcpConnection(EventLoop* loop, int sockfd,const InetAddr& localAddr, const InetAddr& peerAddr);
-    void setConnectionCallback(const ConnectionCallback& cb)
-    { connectionCallback_ = cb; }
+    //void setConnectionCallback(const ConnectionCallback& cb)
+    //{ connectionCallback_ = cb; }
 
-    void setMessageCallback(const MessageCallback& cb)
-    { messageCallback_ = cb; }
+    //void setMessageCallback(const MessageCallback& cb)
+    //{ messageCallback_ = cb; }
 
-    void setWriteCompleteCallback(const WriteCompleteCallback& cb)
-    { writeCompleteCallback_ = cb; }
+    //void setWriteCompleteCallback(const WriteCompleteCallback& cb)
+    //{ writeCompleteCallback_ = cb; }
 private:
     void handlRead();
     void handlWrite();
@@ -32,7 +32,7 @@ private:
     fsociety::net::Socket tcpSocket;
     InetAddr localAddr_;
     InetAddr peerAddr_;
-    Channel channel_;
+    Channel* channel_;
     bool isConnected;
 };
 

@@ -6,7 +6,8 @@
 #define CPPNET_SPDLOG_H
 #include <iostream>
 #include "spdlog/spdlog.h"
-auto console = spdlog::stdout_logger_mt("console");
-
+namespace logger{
+    extern std::shared_ptr<spdlog::logger> console;
+}
 
 #endif //CPPNET_SPDLOG_H

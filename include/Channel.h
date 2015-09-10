@@ -4,7 +4,7 @@
 #include <boost/function.hpp>
 #include <poll.h>
 #include "EpollPoller.h"
-
+#include "InetAddr.h"
 
 class Channel
 {
@@ -13,17 +13,18 @@ class Channel
         static const int ReadEvent = POLLIN;
         static const int WriteEvent = POLLOUT;
 
-        Channel(int fd,Poller* poller)
+        Channel(int fd,Poller* poller,const InetAddr& addr)
             :fd_(fd),
-            poller_(poller),
-            index_(EpollPoller::NewFd),
-            pollEvent_(0),  //for test,change later
-            enableEvent_(0)
-            {}
+             poller_(poller),
+             addr_(addr),
+             index_(EpollPoller::NewFd),
+             pollEvent_(0),  //for test,change later
+             enableEvent_(0)
+        {}
         virtual ~Channel();
         void setReadCallback(EventCallback& cb){readCallback_ = cb;}
         void setWriteCallback(EventCallback& cb){writeCallback_= cb;}
-        void setCloseCallback(EventCallback& cb){closeCallback_ = cb;}
+        //void setCloseCallback(EventCallback& cb){closeCallback_ = cb;}
 
         void enableReadCallback(){enableEvent_|= ReadEvent;updateChannelToPoller();}
         void enableWriteCallback(){enableEvent_ |= WriteEvent;updateChannelToPoller();}
@@ -49,6 +50,7 @@ class Channel
         int getFd(){return fd_;}
         void setIndex(int idx){index_ = idx;}
         int getIndex(){return index_;}
+        const InetAddr* getAddr() const {return &addr_;};
 
     protected:
     private:
@@ -60,6 +62,7 @@ class Channel
 
         int fd_;
         Poller* poller_;
+        ::InetAddr addr_;
         int index_;     //indicate the state of fd in poller
         int pollEvent_;
         int enableEvent_;
