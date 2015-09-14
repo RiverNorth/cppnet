@@ -10,8 +10,8 @@ class Buffer {
 public:
     typedef std::vector<int>::size_type VectorSize;
     static const VectorSize MAX_BUFF_SIZE = 50*1000;
-    Buffer(int initBuffCap):buff_(initBuffCap,0),
-                            (0),readIndex_(0),writeIndex_(0){}
+    Buffer(int initBuffCap):buff_(initBuffCap,0)
+                            ,readIndex_(0),writeIndex_(0){}
     char* getWriteBuff(int& buffCount);
 
 private:
@@ -25,7 +25,6 @@ private:
         buff_.resize(newSize,0);
     }
     std::vector<char> buff_;
-    int beginIndex_;
     int readIndex_;
     int writeIndex_;
 };

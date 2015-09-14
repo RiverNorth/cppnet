@@ -6,6 +6,7 @@
 #define CPPNET_SPDLOG_H
 #include <iostream>
 #include "spdlog/spdlog.h"
+
 namespace logger{
     extern std::shared_ptr<spdlog::logger> console;
 }

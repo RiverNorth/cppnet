@@ -3,7 +3,7 @@
 //
 
 #include "Buffer.h"
-char* Buffer::getWriteBuff(size_t& buffCount)
+char* Buffer::getWriteBuff(int& buffCount)
 {
     if(writeIndex_>=readIndex_)
     {
@@ -18,7 +18,7 @@ char* Buffer::getWriteBuff(size_t& buffCount)
                 writeIndex_ = 0;
             }
         }
-        buffCount = buff_. - writeIndex_;
+        buffCount = buff_.capacity() - writeIndex_;
     }
     else
     {
