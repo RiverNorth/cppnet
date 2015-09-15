@@ -3,7 +3,7 @@
 #include <strings.h>
 #include "Channel.h"
 #include <stdio.h>
-#include "logger.h"
+#include "Slogger.h"
 
 EpollPoller::~EpollPoller()
 {

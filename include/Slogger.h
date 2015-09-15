@@ -4,7 +4,6 @@
 
 #ifndef CPPNET_SPDLOG_H
 #define CPPNET_SPDLOG_H
-#include <iostream>
 #include "spdlog/spdlog.h"
 
 namespace logger{

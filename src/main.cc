@@ -11,7 +11,7 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 #include "InetAddr.h"
-#include "logger.h"
+#include "Slogger.h"
 
 using namespace fsociety::net;
 

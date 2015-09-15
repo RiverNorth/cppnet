@@ -5,7 +5,7 @@
 #ifndef CPPNET_BUFFER_H
 #define CPPNET_BUFFER_H
 #include <vector>
-#include "logger.h"
+#include "Slogger.h"
 class Buffer {
 public:
     typedef std::vector<int>::size_type VectorSize;

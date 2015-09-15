@@ -17,7 +17,7 @@ class EventLoop;
 
 class TcpConnection:public boost::enable_shared_from_this<TcpConnection>{
 public:
-    typedef std::shared_ptr<std::string> string_ptr;
+    typedef boost::shared_ptr<std::string> string_ptr;
     class SendData
     {
     public:
@@ -41,12 +41,13 @@ public:
     typedef std::queue<SendData*,std::list<SendData*> > DataQue;
 
     TcpConnection(EventLoop* loop, int sockfd,const InetAddr& localAddr, const InetAddr& peerAddr);
+    ~TcpConnection();
     void setConnectionCallback(const TcpConnectionCallback& cb) { connectionCallback_ = cb; }
     void setMessageCallback(const MessageCallback& cb) { messageCallback_ = cb; }
     void setWriteCompleteCallback(const WriteCompleteCallback& cb) { writeCompleteCallback_ = cb; }
     void setCloseCallback(const CloseCallback& cb){ closeCallback_ = cb;}
     void closeConnection(){handleClose();}
-    void send(const std::string&);
+    void send(const boost::shared_ptr<std::string>& data);
 private:
     void handlRead();
     void handlWrite();

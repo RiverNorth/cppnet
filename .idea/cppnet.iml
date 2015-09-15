@@ -13,7 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/include/Poller.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/TcpConnection.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/TcpServer.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/logger.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Slogger.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/noncopyable.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/socket.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Acceptor.cpp" isTestSource="false" />
@@ -25,7 +25,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Poller.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/TcpConnection.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/TcpServer.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/logger.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Slogger.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main.cc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/socket.cc" isTestSource="false" />
     </content>
@@ -59,7 +59,7 @@
           <root url="file://$MODULE_DIR$/include/noncopyable.h" />
           <root url="file://$MODULE_DIR$/include/socket.h" />
           <root url="file://$MODULE_DIR$/include/InetAddr.h" />
-          <root url="file://$MODULE_DIR$/include/logger.h" />
+          <root url="file://$MODULE_DIR$/include/Slogger.h" />
           <root url="file://$MODULE_DIR$/include/EpollPoller.h" />
           <root url="file://$MODULE_DIR$/include/TcpServer.h" />
           <root url="file://$MODULE_DIR$/include/Callbacks.h" />

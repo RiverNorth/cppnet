@@ -29,7 +29,7 @@ set(SOURCE_FILES
     include/Callbacks.h
     src/Buffer.cpp
     include/Buffer.h
-    include/logger.h
-    src/logger.cpp)
+        include/Slogger.h
+        src/Slogger.cpp)
 
 add_executable(cppnet ${SOURCE_FILES})

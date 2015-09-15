@@ -7,7 +7,7 @@
 #include "EventLoop.h"
 #include <boost/bind.hpp>
 #include "TcpConnection.h"
-#include "logger.h"
+#include "Slogger.h"
 #include "EventLoop.h"
 #include <string>
 

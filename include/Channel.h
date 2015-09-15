@@ -9,7 +9,7 @@
 class Channel
 {
     public:
-        typedef boost::function<void()> EventCallback;
+        typedef boost::function<void ()> EventCallback;
         static const int ReadEvent = POLLIN;
         static const int WriteEvent = POLLOUT;
 
@@ -22,8 +22,8 @@ class Channel
              enableEvent_(0)
         {}
         virtual ~Channel();
-        void setReadCallback(EventCallback& cb){readCallback_ = cb;}
-        void setWriteCallback(EventCallback& cb){writeCallback_= cb;}
+        void setReadCallback(const EventCallback& cb){readCallback_ = cb;}
+        void setWriteCallback(const EventCallback& cb){writeCallback_= cb;}
         //void setCloseCallback(EventCallback& cb){closeCallback_ = cb;}
 
         void enableReadCallback(){enableEvent_|= ReadEvent;updateChannelToPoller();}

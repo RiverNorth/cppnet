@@ -14,11 +14,11 @@ typedef boost::function<void (TcpConnection const* ,
                               Timestamp)> MessageCallback;
 */
 class TcpConnection;
-typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
+typedef boost::shared_ptr<TcpConnection> TcpConnectionPtr;
 typedef boost::function<void(int fd, const InetAddr& addr)> NewConnectionCallback;
-typedef boost::function<void(TcpConnectionPtr& ptr)> TcpConnectionCallback;
-typedef boost::function<void(TcpConnectionPtr& ptr)> MessageCallback;
-typedef boost::function<void (const TcpConnectionPtr& ptr)> WriteCompleteCallback;
-typedef boost::function<void(TcpConnectionPtr& ptr)> CloseCallback;
+typedef boost::function<void(TcpConnectionPtr ptr)> TcpConnectionCallback;
+typedef boost::function<void(TcpConnectionPtr ptr)> MessageCallback;
+typedef boost::function<void (const TcpConnectionPtr ptr)> WriteCompleteCallback;
+typedef boost::function<void(TcpConnectionPtr ptr)> CloseCallback;
 
 #endif //CPPNET_CALLBACKS_H_H

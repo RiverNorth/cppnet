@@ -1,5 +1,5 @@
 #include "Poller.h"
-#include "logger.h"
+#include "Slogger.h"
 #include "Channel.h"
 
 Poller::Poller()

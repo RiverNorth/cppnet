@@ -6,7 +6,7 @@
 #include "TcpConnection.h"
 #include "EventLoop.h"
 #include "Channel.h"
-#include "logger.h"
+#include "Slogger.h"
 #include "errno.h"
 #include "error.h"
 #include <stdlib.h>
@@ -26,8 +26,16 @@ TcpConnection::TcpConnection(EventLoop* loop, int sockfd,const InetAddr& localAd
         logger::console->critical("TcpConnection createChannel failed {}",sockfd);
     }
 
+
     channel_->setReadCallback(boost::bind(&TcpConnection::handlRead, this));
     channel_->setWriteCallback(boost::bind(&TcpConnection::handlWrite, this));
+}
+
+TcpConnection::~TcpConnection()
+{
+    delete(channel_);
+    std::string str = peerAddr_.getIpPortStr();
+    logger::console->critical("TcpConnection Destroyed.peerAddr:{}",str);
 }
 
 void TcpConnection::handlRead()
@@ -74,9 +82,13 @@ void TcpConnection::handlWrite()
 void TcpConnection::handleClose()
 {
     closeCallback_(shared_from_this());
+    close(fd_);
+    eventloop_->getPoller()->removeChannel(channel_);
 }
 
-void TcpConnection::send(const std::shared_ptr<std::string>& data)
+
+
+void TcpConnection::send(const boost::shared_ptr<std::string>& data)
 {
     int count = write(fd_,data->c_str(),data->size());
     if(count>=0)
@@ -103,7 +115,7 @@ void TcpConnection::send(const std::shared_ptr<std::string>& data)
         else if(errno!=EWOULDBLOCK)
         {
             char* errorStr = strerror(errno);
-            logger::console->critical("TcpConnection Send",errorStr);
+            logger::console->critical("TcpConnection Send error {}",errorStr);
             free(errorStr);
         }
 
