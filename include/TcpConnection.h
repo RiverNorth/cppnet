@@ -21,6 +21,7 @@ public:
     class SendData
     {
     public:
+        std::string name;
         string_ptr ptr;
         uint32_t writeIndex;
         std::string::size_type dataSize;
@@ -40,7 +41,7 @@ public:
     };
     typedef std::queue<SendData*,std::list<SendData*> > DataQue;
 
-    TcpConnection(EventLoop* loop, int sockfd,const InetAddr& localAddr, const InetAddr& peerAddr);
+    TcpConnection(const std::string& tname, EventLoop* loop, int sockfd,const InetAddr& localAddr, const InetAddr& peerAddr);
     ~TcpConnection();
     void setConnectionCallback(const TcpConnectionCallback& cb) { connectionCallback_ = cb; }
     void setMessageCallback(const MessageCallback& cb) { messageCallback_ = cb; }
@@ -48,6 +49,8 @@ public:
     void setCloseCallback(const CloseCallback& cb){ closeCallback_ = cb;}
     void closeConnection(){handleClose();}
     void send(const boost::shared_ptr<std::string>& data);
+
+    const std::string name;
 private:
     void handlRead();
     void handlWrite();

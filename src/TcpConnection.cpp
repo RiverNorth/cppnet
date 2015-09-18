@@ -11,7 +11,8 @@
 #include "error.h"
 #include <stdlib.h>
 
-TcpConnection::TcpConnection(EventLoop* loop, int sockfd,const InetAddr& localAddr, const InetAddr& peerAddr):
+TcpConnection::TcpConnection(const std::string& tname, EventLoop* loop, int sockfd,const InetAddr& localAddr, const InetAddr& peerAddr):
+    name(tname),
     eventloop_(loop),
     fd_(sockfd),
     localAddr_(localAddr),
